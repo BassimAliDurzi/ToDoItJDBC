@@ -1,8 +1,11 @@
 package model;
 
-import java.time.LocalDate;
+import interfaces.TodoItems;
 
-public class TodoItem {
+import java.time.LocalDate;
+import java.util.Collection;
+
+public class TodoItem implements TodoItems {
     private int todoID;
     private String title;
     private String description;
@@ -61,5 +64,45 @@ public class TodoItem {
                 ", done=" + done +
                 ", personID=" + personID +
                 '}';
+    }
+
+    @Override
+    public TodoItem create(TodoItem item) {
+        return null;
+    }
+
+    @Override
+    public Collection<TodoItem> findAll() {
+        return null;
+    }
+
+    @Override
+    public TodoItem findById(int id) {
+        return null;
+    }
+
+    @Override
+    public Collection<TodoItem> findByDoneStatus(boolean isDone) {
+        return null;
+    }
+
+    @Override
+    public Collection<TodoItem> findByAssignee(int id) {
+        return null;
+    }
+
+    @Override
+    public Collection<TodoItem> findByAssignee(Person name) {
+        return null;
+    }
+
+    @Override
+    public void updateItem(TodoItem item) {
+
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        return false;
     }
 }
