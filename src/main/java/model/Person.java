@@ -95,9 +95,10 @@ public class Person implements People {
 
     @Override
     public Collection<Person> findAll() {
+        Connection connection = null;
         String findAllPersons = "SELECT * FROM PERSON";
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(findAllPersons);
 
@@ -112,17 +113,26 @@ public class Person implements People {
                 personsList.add(person);
             }
             personsList.forEach(System.out::println);
+
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (connection != null)
+                    connection.close();
+            }catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
         }
         return null;
     }
 
     @Override
     public Person findById(int id) {
+        Connection connection = null;
         String findById = "SELECT * FROM PERSON WHERE person_id = ?";
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, username, password);
             PreparedStatement preparedStatement = connection.prepareStatement(findById);
 
             preparedStatement.setInt(1, id);
@@ -136,18 +146,27 @@ public class Person implements People {
                 Person person = new Person(personId, firstName, lastName);
                 System.out.println(person.toString());
             }
+            connection.close();
         } catch (SQLException e) {
-
             e.printStackTrace();
+        }finally {
+            try {
+                if (connection != null){
+                    connection.close();
+                }
+            }catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
         }
         return null;
     }
 
     @Override
     public Collection<Person> findByName(String name) {
+        Connection connection = null;
         String findPersonByName = "SELECT * FROM PERSON WHERE first_name = ?";
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, username, password);
             PreparedStatement preparedStatement = connection.prepareStatement(findPersonByName);
 
             preparedStatement.setString(1, name);
@@ -162,8 +181,16 @@ public class Person implements People {
                 personsList.add(person);
             }
             personsList.forEach(System.out::println);
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (connection != null)
+                    connection.close();
+            }catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
         }
         return null;
     }
@@ -197,6 +224,7 @@ public class Person implements People {
                     System.out.println("Last name was updated Successfully");
                 }
             }
+            connection.close();
         } catch (
                 SQLException e) {
             e.printStackTrace();
@@ -216,7 +244,7 @@ public class Person implements People {
             if (recordsDeleted > 0) {
                 System.out.println("The person was deleted successfully!");
             }
-
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

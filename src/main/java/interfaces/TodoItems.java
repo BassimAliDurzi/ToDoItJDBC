@@ -13,6 +13,9 @@ public interface TodoItems {
     Collection<TodoItem> findByDoneStatus(boolean isDone);
     Collection<TodoItem> findByAssignee(int id);
     Collection<TodoItem> findByAssignee(Person name);
+
+    Collection<TodoItem> findByAssignee(String firstName);
+
     void updateItem(TodoItem item);
     boolean deleteById(int id);
 
